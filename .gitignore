@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 # Ignore corrections files for now, too big
-#*.npy
+*.npy
 
 # Development code
 development/
