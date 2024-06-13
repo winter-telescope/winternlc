@@ -12,6 +12,9 @@ TODO: add more to the bad pixel masking.
 
 ```bash
 pip install .
+```
 
 ## Get Started
-- winter_corrections/example.py
+```
+winter_corrections/example.py
+```
