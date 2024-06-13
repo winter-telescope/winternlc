@@ -6,4 +6,4 @@ test_directory = '/data/flats_iwr/20240610'
 output_directory = '../data/linearity_corrections'
 
 # variables
-cutoff = 56000  # Example cutoff value
+cutoff = 56000  
