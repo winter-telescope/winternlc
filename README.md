@@ -6,9 +6,12 @@ A package for implementing nonlinearity corrections for WINTER.
 
 TODO: add more to the bad pixel masking. 
 - Currently it only masks pixels which fail the rational fit or are tied high.
-- To add: dead pixel and highly nonlinear pixels to the mask. 
+- To add: dead pixel and highly nonlinear pixels to the mask.
 
 ## Installation
 
 ```bash
 pip install .
+
+## Get Started
+- winter_corrections/example.py
