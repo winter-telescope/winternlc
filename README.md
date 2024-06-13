@@ -1,4 +1,4 @@
-# My Package
+# WINTER corrections
 
 A package for implementing nonlinearity corrections for WINTER.
 - Current implementation is with a rational function with 8 parameters.
