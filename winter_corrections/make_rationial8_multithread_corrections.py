@@ -140,18 +140,16 @@ def save_rational_coefficients(median_files, output_dir, cutoff, test=False, tes
     for ext, values in pixel_values_by_extension.items():
         sorted_values = [values[i] for i in sorted_indices]
         print(f"trying corrections for board {ext}")
-        if ext > 1:
-            print(f"actually trying corrections for board {ext}")
-            # Fit rational function to each pixel and save coefficients
-            rat_coeffs, bad_pixel_mask = fit_rational_to_pixels(sorted_exposure_times, sorted_values, cutoff, test=test, test_pixel=test_pixel)
-            board_id = board_ids_by_extension[ext]
-            if test:
-                np.save(os.path.join(output_dir, f'rat_coeffs_board_{board_id}_ext_{ext}_test.npy'), rat_coeffs)
-                if bad_pixel_mask is not None:
-                    np.save(os.path.join(output_dir, f'bad_pixel_mask_board_{board_id}_ext_{ext}_test.npy'), bad_pixel_mask)
-            else:
-                np.save(os.path.join(output_dir, f'rat_coeffs_board_{board_id}_ext_{ext}.npy'), rat_coeffs)
-                np.save(os.path.join(output_dir, f'bad_pixel_mask_board_{board_id}_ext_{ext}.npy'), bad_pixel_mask)
+        # Fit rational function to each pixel and save coefficients
+        rat_coeffs, bad_pixel_mask = fit_rational_to_pixels(sorted_exposure_times, sorted_values, cutoff, test=test, test_pixel=test_pixel)
+        board_id = board_ids_by_extension[ext]
+        if test:
+            np.save(os.path.join(output_dir, f'rat_coeffs_board_{board_id}_ext_{ext}_test.npy'), rat_coeffs)
+            if bad_pixel_mask is not None:
+                np.save(os.path.join(output_dir, f'bad_pixel_mask_board_{board_id}_ext_{ext}_test.npy'), bad_pixel_mask)
+        else:
+            np.save(os.path.join(output_dir, f'rat_coeffs_board_{board_id}_ext_{ext}.npy'), rat_coeffs)
+            np.save(os.path.join(output_dir, f'bad_pixel_mask_board_{board_id}_ext_{ext}.npy'), bad_pixel_mask)
 
 def plot_pixel_signal(median_files, cutoff, test_pixel):
     """
@@ -208,7 +206,9 @@ def load_and_plot_rational(median_files, output_dir, cutoff, test_pixel, test=Fa
             valid_exposure_times_by_extension[i].append(exposure_time)
             board_ids_by_extension[i] = board_ids[i]
 
-    colors = ['k', 'gray', 'blue', 'green', 'purple', 'cyan']
+    #colors = ['k', 'gray', 'blue', 'green', 'purple', 'cyan']
+    boards = { 1: "Port A",  3: "Port B", 4: "Port C", 2: "Star A", 6: "Star B", 5: "Star C"}
+    colors = {1:'limegreen', 3:'darkturquoise', 4:'royalblue',   2:'darkviolet', 6:'darkorange',  5:'red' }
     for ext, values in pixel_values_by_extension.items():
         sorted_indices = np.argsort(valid_exposure_times_by_extension[ext])
         sorted_exposure_times = np.array(valid_exposure_times_by_extension[ext])[sorted_indices]
@@ -229,27 +229,30 @@ def load_and_plot_rational(median_files, output_dir, cutoff, test_pixel, test=Fa
             def fitted_func(x):
                 return rational_func(x, *pixel_coeffs)
 
-            plt.plot(sorted_exposure_times, sorted_values, color=colors[ext], label=f'Signal BOARD_ID: {board_ids_by_extension[ext]}')
-            plt.plot(sorted_exposure_times, cutoff * fitted_func(np.array(sorted_values) / cutoff), color=colors[ext], linestyle='--', label=f'Fit BOARD_ID: {board_ids_by_extension[ext]}')
+            plt.plot(sorted_exposure_times, sorted_values, color=colors[board_ids_by_extension[ext]], label=f'{boards[board_ids_by_extension[ext]]}')
+            plt.plot(sorted_exposure_times, cutoff * fitted_func(np.array(sorted_values) / cutoff), color=colors[board_ids_by_extension[ext]], linestyle='--')
 
-    plt.xlabel('Exposure Time [s]')
-    plt.ylabel('Signal Value [counts]')
+    plt.xlabel('Exposure time [s]')
+    plt.ylabel('Raw counts [DN]')
     plt.title(f'Signal vs Rational Fit for Pixel {test_pixel} with 8 Parameters')
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
-    plt.grid(True)
+    #plt.ylim(0, cutoff)
+    plt.legend()
+    plt.tight_layout()
+    #plt.savefig('/home/winter/Downloads/rational_fit.png', dpi=300)
+    #plt.grid(True)
     plt.show()
 
 if __name__ == "__main__":
     # Example usage
     median_files = find_median_files(test_directory)
     test_pixel = (519, 519)
-    test = True    
+    test = True   
     if test:
         # Plot pixel signal for the test pixel
-        plot_pixel_signal(median_files, cutoff=cutoff, test_pixel=test_pixel)
+        #plot_pixel_signal(median_files, cutoff=cutoff, test_pixel=test_pixel)
         
         # Save rational coefficients for the test pixel
-        save_rational_coefficients(median_files, output_dir=output_directory, cutoff=cutoff, test=test, test_pixel=test_pixel)
+        #save_rational_coefficients(median_files, output_dir=output_directory, cutoff=cutoff, test=test, test_pixel=test_pixel)
         
         # Load and plot the fitted rational functions for the test pixel
         load_and_plot_rational(median_files, output_directory, cutoff, test_pixel=test_pixel, test=test)
@@ -261,4 +264,4 @@ if __name__ == "__main__":
         save_rational_coefficients(median_files, output_dir=output_directory, cutoff=cutoff, test=test)
     
         # Load and plot the fitted rational functions for the central pixel
-        load_and_plot_rational(median_files, output_directory, cutoff, test_pixel=test_pixel)
+        #load_and_plot_rational(median_files, output_directory, cutoff, test_pixel=test_pixel)
