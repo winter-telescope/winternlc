@@ -18,4 +18,4 @@ test_directory = '/data/flats_iwr/20240610'
 output_directory = '../data/linearity_corrections/'+zenodo_version
 
 # variables
-cutoff = 56000  
+cutoff = 56000
