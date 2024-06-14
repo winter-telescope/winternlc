@@ -32,7 +32,7 @@ EXAMPLE_MASKED_IMG_PATH = example_data_dir / "masked_example_science_image_mef.f
 _corrections_dir = os.getenv("WINTERNLC_DIR")
 if _corrections_dir is None:
     corrections_dir = Path.home() / "Data/winternlc/"
-    logger.warning(f"No data directory set, using {corrections_dir}")
+    logger.warning(f"No correction data directory set, using {corrections_dir}")
 else:
     corrections_dir = Path(_corrections_dir)
 

@@ -46,6 +46,9 @@ dev = [
 [project.urls]
 Homepage = "https://github.com/winter-telescope/winternlc"
 
+[project.scripts]
+winternlc-apply = "winternlc.apply:nlc_cli"
+
 [tool.setuptools]
 packages = ["winternlc"]
 

@@ -27,6 +27,38 @@ The file `winter_corrections/config.py` specifices which version and zenodo URL 
 - v1.1: latest correction files from September 2024 with five operational sensors.
 
 ## Get Started
+
+You can use winternlc directly from the command line. 
+
+```bash
+winternlc-apply /path/to/data.fits
 ```
-winter_corrections/example.py
+
+This will apply the nonlinearity correction to the data and save the corrected data to a new file.
+
+You can also run the correction on multiple files at once.
+
+```bash
+winternlc-apply /path/to/data1.fits /path/to/data2.fits
 ```
+
+Alternatively, you can specify a directory and all the files in the directory will be corrected.
+
+```bash
+winternlc-apply /path/to/directory
+```
+
+In all cases, you can also specify the output directory.
+
+```bash
+winternlc-apply /path/to/data.fits --output-dir /path/to/output
+```
+
+If you do not specify an output directory, the corrected files will be saved in the same directory as the input files.
+
+See the help message for more information.
+
+```bash
+winternlc --help
+```
+
