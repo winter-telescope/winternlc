@@ -7,8 +7,9 @@ import unittest
 from astropy.io import fits
 import numpy as np
 
-from winternlc.config import EXAMPLE_IMG_PATH, EXAMPLE_CORRECTED_IMG_PATH, corrections_dir
+from winternlc.config import EXAMPLE_IMG_PATH, EXAMPLE_CORRECTED_IMG_PATH, EXAMPLE_MASKED_IMG_PATH
 from winternlc.non_linear_correction import nlc_single
+from winternlc.mask import mask_single
 
 
 logger = logging.getLogger(__name__)
@@ -33,9 +34,7 @@ class TestSchedule(unittest.TestCase):
                 image = hdul[ext].data
                 board_id = header.get("BOARD_ID", None)
                 print(f"Processing extension {ext} with BOARD_ID {board_id}")
-                corrected_image = nlc_single(
-                    image, board_id, corrections_dir
-                )
+                corrected_image = nlc_single(image, board_id)
 
                 comparison_image = hdul_corrected[ext].data
 
@@ -50,3 +49,23 @@ class TestSchedule(unittest.TestCase):
                 self.assertAlmostEqual(float(np.nanmean(ratio)), 1., delta=0.001)
                 self.assertAlmostEqual(float(np.nanmedian(ratio)), 1., delta=0.001)
                 self.assertAlmostEqual(float(np.nanstd(ratio)), 0., delta=0.01)
+
+    def test_mask(self):
+        """
+        Test mask application on test image
+        """
+
+        logger.info("Testing mask")
+        with (fits.open(EXAMPLE_IMG_PATH) as hdul, fits.open(EXAMPLE_MASKED_IMG_PATH) as hdul_corrected):
+            for ext in range(1, len(hdul)):
+                header = hdul[ext].header
+                image = hdul[ext].data
+                board_id = header.get("BOARD_ID", None)
+                print(f"Processing extension {ext} with BOARD_ID {board_id}")
+                corrected_image = mask_single(
+                    image, board_id
+                )
+
+                comparison_image = hdul_corrected[ext].data
+
+                self.assertTrue(np.allclose(corrected_image, comparison_image, equal_nan=True))

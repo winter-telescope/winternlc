@@ -13,7 +13,6 @@ from typing import Callable
 
 import matplotlib.pyplot as plt
 import numpy as np
-from astropy.io import fits
 from scipy.optimize import curve_fit
 
 from winternlc.config import DEFAULT_CUTOFF, output_directory, test_directory
@@ -188,11 +187,11 @@ def save_rational_coefficients(
             )
         else:
             np.save(
-                str(get_coeffs_path(output_dir, board_id)),
+                str(get_coeffs_path(board_id, output_dir)),
                 rat_coeffs,
             )
             np.save(
-                str(get_mask_path(output_dir, board_id)),
+                str(get_mask_path(board_id, output_dir)),
                 bad_pix,
             )
 
@@ -301,10 +300,7 @@ def load_and_plot_rational(
                 f"rat_coeffs_board_{board_ids_by_extension[ext]}_ext_{ext}_test.npy",
             )
         else:
-            rat_coeffs_path = os.path.join(
-                output_dir,
-                f"rat_coeffs_board_{board_ids_by_extension[ext]}_ext_{ext}.npy",
-            )
+            rat_coeffs_path = get_coeffs_path(board_id=board_ids_by_extension[ext], cor_dir=output_dir)
 
         if os.path.exists(rat_coeffs_path):
             rat_coeffs = np.load(rat_coeffs_path)

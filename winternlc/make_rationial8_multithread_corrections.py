@@ -156,11 +156,11 @@ def save_rational_coefficients(
                 )
         else:
             np.save(
-                str(get_coeffs_path(output_dir, board_id)),
+                str(get_coeffs_path(board_id, output_dir)),
                 rat_coeffs,
             )
             np.save(
-                str(get_mask_path(output_dir, board_id)),
+                str(get_mask_path(board_id, output_dir)),
                 bad_pixel_mask,
             )
 
