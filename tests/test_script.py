@@ -1,6 +1,6 @@
-from winternlc.config import cor_dir, cutoff, fits_file, save_dir
-from winternlc.example import test_mask, test_nonlinearity
+from winternlc.config import cor_dir, DEFAULT_CUTOFF, DEFAULT_IMG_PATH, save_dir
+from winternlc.example import apply_mask_mef, apply_nlc_mef
 
 if __name__ == "__main__":
-    test_nonlinearity(fits_file, cor_dir, save_dir, cutoff)
-    test_mask(fits_file, cor_dir, save_dir, cutoff)
+    apply_nlc_mef(DEFAULT_IMG_PATH, cor_dir, save_dir, DEFAULT_CUTOFF)
+    apply_mask_mef(DEFAULT_IMG_PATH, cor_dir, save_dir, DEFAULT_CUTOFF)

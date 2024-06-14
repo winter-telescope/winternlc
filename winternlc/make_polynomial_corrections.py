@@ -10,7 +10,7 @@ import os
 from collections import defaultdict
 
 import numpy as np
-from config import cutoff, output_directory, test_directory
+from config import DEFAULT_CUTOFF, output_directory, test_directory
 
 from winternlc.utils import extract_pixel_values, find_median_files, get_exposure_time
 
@@ -270,7 +270,7 @@ if __name__ == "__main__":
     if test:
         # Plot pixel signal for the test pixel
         print("plot pix sig")
-        plot_pixel_signal(median_files, cutoff=cutoff, test_pixel=test_pixel)
+        plot_pixel_signal(median_files, cutoff=DEFAULT_CUTOFF, test_pixel=test_pixel)
 
         print("save poly coeff")
         # Save polynomial coefficients for the test pixel
@@ -278,7 +278,7 @@ if __name__ == "__main__":
             median_files,
             poly_order,
             output_dir=output_directory,
-            cutoff=cutoff,
+            cutoff=DEFAULT_CUTOFF,
             test=test,
             test_pixel=test_pixel,
         )
@@ -288,25 +288,25 @@ if __name__ == "__main__":
         load_and_plot_polynomials(
             median_files,
             output_directory,
-            cutoff,
+            DEFAULT_CUTOFF,
             poly_order,
             test_pixel=test_pixel,
             test=test,
         )
     else:
         # Plot central pixel signal for all pixels
-        plot_pixel_signal(median_files, cutoff=cutoff, test_pixel=test_pixel)
+        plot_pixel_signal(median_files, cutoff=DEFAULT_CUTOFF, test_pixel=test_pixel)
 
         # Save polynomial coefficients for all pixels
         save_polynomial_coefficients(
             median_files,
             poly_order,
             output_dir=output_directory,
-            cutoff=cutoff,
+            cutoff=DEFAULT_CUTOFF,
             test=test,
         )
 
         # Load and plot the fitted polynomials for the central pixel
         load_and_plot_polynomials(
-            median_files, output_directory, cutoff, poly_order, test_pixel=test_pixel
+            median_files, output_directory, DEFAULT_CUTOFF, poly_order, test_pixel=test_pixel
         )

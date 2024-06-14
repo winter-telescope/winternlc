@@ -1,1 +1,1 @@
-from winternlc.example import test_mask, test_nonlinearity
+from winternlc.example import apply_mask_mef, apply_nlc_mef

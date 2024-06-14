@@ -16,8 +16,10 @@ import numpy as np
 from astropy.io import fits
 from scipy.optimize import curve_fit
 
-from winternlc.config import cutoff, output_directory, test_directory
+from winternlc.config import DEFAULT_CUTOFF, output_directory, test_directory
 from winternlc.utils import extract_pixel_values, find_median_files, get_exposure_time
+from winternlc.non_linear_correction import get_coeffs_path
+from winternlc.mask import get_mask_path
 
 
 def create_rational_func(num_params: int) -> Callable[[float], float]:
@@ -186,11 +188,11 @@ def save_rational_coefficients(
             )
         else:
             np.save(
-                os.path.join(output_dir, f"rat_coeffs_board_{board_id}_ext_{ext}.npy"),
+                str(get_coeffs_path(output_dir, board_id)),
                 rat_coeffs,
             )
             np.save(
-                os.path.join(output_dir, f"bad_pix_board_{board_id}_ext_{ext}.npy"),
+                str(get_mask_path(output_dir, board_id)),
                 bad_pix,
             )
 
@@ -347,14 +349,14 @@ if __name__ == "__main__":
 
     if test:
         # Plot pixel signal for the test pixel
-        plot_pixel_signal(median_files, cutoff=cutoff, test_pixel=test_pixel)
+        plot_pixel_signal(median_files, cutoff=DEFAULT_CUTOFF, test_pixel=test_pixel)
 
         # Save rational coefficients for the test pixel
         save_rational_coefficients(
             median_files,
             num_params,
             output_dir=output_directory,
-            cutoff=cutoff,
+            cutoff=DEFAULT_CUTOFF,
             test=test,
             test_pixel=test_pixel,
         )
@@ -363,25 +365,25 @@ if __name__ == "__main__":
         load_and_plot_rational(
             median_files,
             output_directory,
-            cutoff,
+            DEFAULT_CUTOFF,
             num_params,
             test_pixel=test_pixel,
             test=test,
         )
     else:
         # Plot central pixel signal for all pixels
-        plot_pixel_signal(median_files, cutoff=cutoff, test_pixel=test_pixel)
+        plot_pixel_signal(median_files, cutoff=DEFAULT_CUTOFF, test_pixel=test_pixel)
 
         # Save rational coefficients for all pixels
         save_rational_coefficients(
             median_files,
             num_params,
             output_dir=output_directory,
-            cutoff=cutoff,
+            cutoff=DEFAULT_CUTOFF,
             test=test,
         )
 
         # Load and plot the fitted rational functions for the central pixel
         load_and_plot_rational(
-            median_files, output_directory, cutoff, num_params, test_pixel=test_pixel
+            median_files, output_directory, DEFAULT_CUTOFF, num_params, test_pixel=test_pixel
         )

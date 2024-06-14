@@ -4,16 +4,13 @@ from multiprocessing import Pool, cpu_count
 
 import matplotlib.pyplot as plt
 import numpy as np
-from config import cutoff, output_directory, test_directory
+from config import DEFAULT_CUTOFF, output_directory, test_directory
 from scipy.optimize import curve_fit
 
 from winternlc.utils import extract_pixel_values, find_median_files, get_exposure_time
-
-
-def rational_func(x, a0, a1, a2, a3, b0, b1, b2, b3):
-    return (a0 + a1 * x + a2 * x**2 + a3 * x**3) / (
-        1 + b0 * x + b1 * x**2 + b2 * x**3 + b3 * x**4
-    )
+from winternlc.rational import rational_func
+from winternlc.non_linear_correction import get_coeffs_path
+from winternlc.mask import get_mask_path
 
 
 def fit_rational_to_pixel(args):
@@ -159,13 +156,11 @@ def save_rational_coefficients(
                 )
         else:
             np.save(
-                os.path.join(output_dir, f"rat_coeffs_board_{board_id}_ext_{ext}.npy"),
+                str(get_coeffs_path(output_dir, board_id)),
                 rat_coeffs,
             )
             np.save(
-                os.path.join(
-                    output_dir, f"bad_pixel_mask_board_{board_id}_ext_{ext}.npy"
-                ),
+                str(get_mask_path(output_dir, board_id)),
                 bad_pixel_mask,
             )
 
@@ -315,7 +310,7 @@ if __name__ == "__main__":
 
         # Load and plot the fitted rational functions for the test pixel
         load_and_plot_rational(
-            median_files, output_directory, cutoff, test_pixel=test_pixel, test=test
+            median_files, output_directory, DEFAULT_CUTOFF, test_pixel=test_pixel, test=test
         )
     else:
         # Plot central pixel signal for all pixels
@@ -323,7 +318,7 @@ if __name__ == "__main__":
 
         # Save rational coefficients for all pixels
         save_rational_coefficients(
-            median_files, output_dir=output_directory, cutoff=cutoff, test=test
+            median_files, output_dir=output_directory, cutoff=DEFAULT_CUTOFF, test=test
         )
 
         # Load and plot the fitted rational functions for the central pixel

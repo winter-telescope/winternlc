@@ -4,11 +4,12 @@ from pathlib import Path
 
 from astropy.io import fits
 
-from winternlc.config import cor_dir, cutoff, fits_file, save_dir
-from winternlc.corrections import mask_bad_pixels, nonlinearity_correction
+from winternlc.config import cor_dir, DEFAULT_CUTOFF, DEFAULT_IMG_PATH, save_dir
+from winternlc.non_linear_correction import nlc_single
+from winternlc.mask import mask_single
 
 
-def test_nonlinearity(
+def apply_nlc_mef(
     fits_file: str | Path, cor_dir: str | Path, save_dir: str | Path, cutoff: float
 ):
     """
@@ -30,8 +31,8 @@ def test_nonlinearity(
             if board_id is not None:
                 print(f"Processing extension {ext} with BOARD_ID {board_id}")
                 start = time.time()
-                corrected_image = nonlinearity_correction(
-                    image, board_id, ext, cor_dir, cutoff
+                corrected_image = nlc_single(
+                    image, board_id, cor_dir, cutoff
                 )
                 end = time.time()
                 print(f"took {end-start} s to execute")
@@ -46,8 +47,8 @@ def test_nonlinearity(
         print(f"Corrected FITS file saved to {corrected_fits_file}")
 
 
-def test_mask(
-    fits_file: str | Path, cor_dir: str | Path, save_dir: str | Path, cutoff: float
+def apply_mask_mef(
+    fits_file: str | Path, cor_dir: str | Path, save_dir: str | Path
 ):
     """
     Process a multi-extension FITS file, applying nonlinearity correction to each
@@ -56,7 +57,6 @@ def test_mask(
     :param fits_file: Path to the FITS file
     :param cor_dir: Directory containing the correction files
     :param save_dir: Directory to save the corrected FITS file
-    :param cutoff: Cutoff value for the image
 
     :return: None
     """
@@ -68,7 +68,7 @@ def test_mask(
             if board_id is not None:
                 print(f"Masking extension {ext} with BOARD_ID {board_id}")
                 start = time.time()
-                corrected_image = mask_bad_pixels(image, board_id, ext, cor_dir)
+                corrected_image = mask_single(image, board_id, cor_dir)
                 end = time.time()
                 print(f"took {end-start} s to execute")
                 hdul[ext].data = corrected_image
@@ -83,5 +83,5 @@ def test_mask(
 
 
 if __name__ == "__main__":
-    test_nonlinearity(fits_file, cor_dir, save_dir, cutoff)
-    test_mask(fits_file, cor_dir, save_dir, cutoff)
+    apply_nlc_mef(DEFAULT_IMG_PATH, cor_dir, save_dir, DEFAULT_CUTOFF)
+    apply_mask_mef(DEFAULT_IMG_PATH, cor_dir, save_dir)
