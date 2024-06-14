@@ -17,9 +17,9 @@ from astropy.io import fits
 from scipy.optimize import curve_fit
 
 from winternlc.config import DEFAULT_CUTOFF, output_directory, test_directory
-from winternlc.utils import extract_pixel_values, find_median_files, get_exposure_time
-from winternlc.non_linear_correction import get_coeffs_path
 from winternlc.mask import get_mask_path
+from winternlc.non_linear_correction import get_coeffs_path
+from winternlc.utils import extract_pixel_values, find_median_files, get_exposure_time
 
 
 def create_rational_func(num_params: int) -> Callable[[float], float]:
@@ -385,5 +385,9 @@ if __name__ == "__main__":
 
         # Load and plot the fitted rational functions for the central pixel
         load_and_plot_rational(
-            median_files, output_directory, DEFAULT_CUTOFF, num_params, test_pixel=test_pixel
+            median_files,
+            output_directory,
+            DEFAULT_CUTOFF,
+            num_params,
+            test_pixel=test_pixel,
         )

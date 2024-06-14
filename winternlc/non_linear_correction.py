@@ -3,10 +3,10 @@ Module for applying nonlinearity correction and bad pixel masking to images.
 """
 
 import os
+from pathlib import Path
 
 import numpy as np
 
-from pathlib import Path
 from winternlc.config import DEFAULT_CUTOFF
 from winternlc.rational import rational_func
 
@@ -42,7 +42,7 @@ def load_rational_coeffs(cor_dir: Path | str, board_id: int) -> np.ndarray:
 
 
 def apply_nonlinearity_correction(
-        image: np.ndarray, coeffs: np.ndarray, cutoff: float = DEFAULT_CUTOFF
+    image: np.ndarray, coeffs: np.ndarray, cutoff: float = DEFAULT_CUTOFF
 ) -> np.ndarray:
     """
     Applies nonlinearity correction to an image using precomputed rational coefficients.

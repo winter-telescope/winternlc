@@ -4,9 +4,14 @@ from pathlib import Path
 
 from astropy.io import fits
 
-from winternlc.config import cor_dir, DEFAULT_CUTOFF, DEFAULT_IMG_PATH, save_dir
-from winternlc.non_linear_correction import nlc_single
+from winternlc.config import (
+    DEFAULT_CORRECTION_DIR,
+    DEFAULT_CUTOFF,
+    DEFAULT_IMG_PATH,
+    DEFAULT_SAVE_DIR,
+)
 from winternlc.mask import mask_single
+from winternlc.non_linear_correction import nlc_single
 
 
 def apply_nlc_mef(
@@ -31,9 +36,7 @@ def apply_nlc_mef(
             if board_id is not None:
                 print(f"Processing extension {ext} with BOARD_ID {board_id}")
                 start = time.time()
-                corrected_image = nlc_single(
-                    image, board_id, cor_dir, cutoff
-                )
+                corrected_image = nlc_single(image, board_id, cor_dir, cutoff)
                 end = time.time()
                 print(f"took {end-start} s to execute")
                 hdul[ext].data = corrected_image
@@ -47,9 +50,7 @@ def apply_nlc_mef(
         print(f"Corrected FITS file saved to {corrected_fits_file}")
 
 
-def apply_mask_mef(
-    fits_file: str | Path, cor_dir: str | Path, save_dir: str | Path
-):
+def apply_mask_mef(fits_file: str | Path, cor_dir: str | Path, save_dir: str | Path):
     """
     Process a multi-extension FITS file, applying nonlinearity correction to each
     extension, and write the corrected FITS file to disk.
@@ -83,5 +84,7 @@ def apply_mask_mef(
 
 
 if __name__ == "__main__":
-    apply_nlc_mef(DEFAULT_IMG_PATH, cor_dir, save_dir, DEFAULT_CUTOFF)
-    apply_mask_mef(DEFAULT_IMG_PATH, cor_dir, save_dir)
+    apply_nlc_mef(
+        DEFAULT_IMG_PATH, DEFAULT_CORRECTION_DIR, DEFAULT_SAVE_DIR, DEFAULT_CUTOFF
+    )
+    apply_mask_mef(DEFAULT_IMG_PATH, DEFAULT_CORRECTION_DIR, DEFAULT_SAVE_DIR)

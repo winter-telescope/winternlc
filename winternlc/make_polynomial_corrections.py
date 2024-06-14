@@ -308,5 +308,9 @@ if __name__ == "__main__":
 
         # Load and plot the fitted polynomials for the central pixel
         load_and_plot_polynomials(
-            median_files, output_directory, DEFAULT_CUTOFF, poly_order, test_pixel=test_pixel
+            median_files,
+            output_directory,
+            DEFAULT_CUTOFF,
+            poly_order,
+            test_pixel=test_pixel,
         )

@@ -7,10 +7,10 @@ import numpy as np
 from config import DEFAULT_CUTOFF, output_directory, test_directory
 from scipy.optimize import curve_fit
 
-from winternlc.utils import extract_pixel_values, find_median_files, get_exposure_time
-from winternlc.rational import rational_func
-from winternlc.non_linear_correction import get_coeffs_path
 from winternlc.mask import get_mask_path
+from winternlc.non_linear_correction import get_coeffs_path
+from winternlc.rational import rational_func
+from winternlc.utils import extract_pixel_values, find_median_files, get_exposure_time
 
 
 def fit_rational_to_pixel(args):
@@ -310,7 +310,11 @@ if __name__ == "__main__":
 
         # Load and plot the fitted rational functions for the test pixel
         load_and_plot_rational(
-            median_files, output_directory, DEFAULT_CUTOFF, test_pixel=test_pixel, test=test
+            median_files,
+            output_directory,
+            DEFAULT_CUTOFF,
+            test_pixel=test_pixel,
+            test=test,
         )
     else:
         # Plot central pixel signal for all pixels

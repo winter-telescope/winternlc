@@ -1,5 +1,6 @@
-import numpy as np
 from pathlib import Path
+
+import numpy as np
 
 
 def get_mask_path(cor_dir: Path, board_id: int) -> Path:
@@ -25,16 +26,13 @@ def load_mask(cor_dir: Path | str, board_id: int) -> np.ndarray:
 
     if not mask_path.exists():
         raise FileNotFoundError(
-            f"Bad pixel mask file not found at {mask_path} "
-            f"for board_id {board_id}"
+            f"Bad pixel mask file not found at {mask_path} " f"for board_id {board_id}"
         )
 
     return np.load(str(mask_path))
 
 
-def apply_mask(
-    image: np.ndarray, mask: np.ndarray
-) -> np.ndarray:
+def apply_mask(image: np.ndarray, mask: np.ndarray) -> np.ndarray:
     """
     Applies a bad pixel mask to an image.
 
@@ -46,9 +44,7 @@ def apply_mask(
     return image
 
 
-def mask_single(
-    image: np.ndarray, board_id: int, cor_dir: str
-) -> np.ndarray:
+def mask_single(image: np.ndarray, board_id: int, cor_dir: str) -> np.ndarray:
     """
     Applies a bad pixel mask to an image.
 
