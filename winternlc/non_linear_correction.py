@@ -2,7 +2,6 @@
 Module for applying nonlinearity correction and bad pixel masking to images.
 """
 
-import os
 from pathlib import Path
 
 import numpy as np
@@ -68,7 +67,7 @@ def apply_nonlinearity_correction(
 
 
 def nlc_single(
-    image: np.ndarray, board_id: int, cor_dir: str, cutoff: float
+    image: np.ndarray, board_id: int, cor_dir: str, cutoff: float = DEFAULT_CUTOFF
 ) -> np.ndarray:
     """
     Applies nonlinearity correction to an image using precomputed rational coefficients.

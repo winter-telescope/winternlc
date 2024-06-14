@@ -5,10 +5,10 @@ from pathlib import Path
 from astropy.io import fits
 
 from winternlc.config import (
-    DEFAULT_CORRECTION_DIR,
+    corrections_dir,
     DEFAULT_CUTOFF,
-    DEFAULT_IMG_PATH,
-    DEFAULT_SAVE_DIR,
+    EXAMPLE_IMG_PATH,
+    example_data_dir,
 )
 from winternlc.mask import mask_single
 from winternlc.non_linear_correction import nlc_single
@@ -85,6 +85,6 @@ def apply_mask_mef(fits_file: str | Path, cor_dir: str | Path, save_dir: str | P
 
 if __name__ == "__main__":
     apply_nlc_mef(
-        DEFAULT_IMG_PATH, DEFAULT_CORRECTION_DIR, DEFAULT_SAVE_DIR, DEFAULT_CUTOFF
+        EXAMPLE_IMG_PATH, corrections_dir, example_data_dir, DEFAULT_CUTOFF
     )
-    apply_mask_mef(DEFAULT_IMG_PATH, DEFAULT_CORRECTION_DIR, DEFAULT_SAVE_DIR)
+    apply_mask_mef(EXAMPLE_IMG_PATH, corrections_dir, example_data_dir)

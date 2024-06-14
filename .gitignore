@@ -10,6 +10,7 @@ __pycache__/
 *.npy
 
 .idea
+.DS_Store
 
 # Development code
 development/
