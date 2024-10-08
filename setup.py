@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='winter_corrections',
-    version='0.1',
+    version='1.1',
     packages=find_packages(),
     install_requires=[
         'numpy',
