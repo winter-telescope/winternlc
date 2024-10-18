@@ -16,11 +16,9 @@ pre-commit install
 ```
 
 ## Download corrections files
-The corrections files are too large for GIT. You can instead download them from zenodo with the following command.
+The corrections files are too large for GIT, but these are automatically downloaded from zenodo:
 
-```
-python winter_corrections/get_corrections.py
-```
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13863496.svg)](https://doi.org/10.5281/zenodo.13863496)
 
 The file `winter_corrections/config.py` specifices which version and zenodo URL to grab. The current recommended versions are as follows:
 - v0.1: original corrections files from June 2024 with six operational sensors. 
@@ -61,4 +59,3 @@ See the help message for more information.
 ```bash
 winternlc --help
 ```
-
