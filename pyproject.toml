@@ -33,7 +33,8 @@ dependencies = [
     'numpy',
     'matplotlib',
     'astropy',
-    'scipy'
+    'scipy',
+    "pre-commit"
 ]
 [project.optional-dependencies]
 dev = [
