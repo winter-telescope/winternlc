@@ -1,5 +1,9 @@
 # WINTER corrections
 
+[![CI](https://github.com/winter-telescope/winternlc/actions/workflows/continuous_integration.yml/badge.svg)](https://github.com/winter-telescope/winternlc/actions/workflows/continuous_integration.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Coverage Status](https://coveralls.io/repos/github/winter-telescope/winternlc/badge.svg?branch=main)](https://coveralls.io/github/winter-telescope/winternlc?branch=main)
+
 A package for implementing nonlinearity corrections for WINTER.
 - Current implementation is with a rational function with 8 parameters.
 - Also has the ability to generate/fit polynomial and other rational functions.
