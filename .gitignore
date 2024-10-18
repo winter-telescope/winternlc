@@ -9,6 +9,9 @@ __pycache__/
 # Ignore corrections files for now, too big
 *.npy
 
+.idea
+.DS_Store
+
 # Development code
 development/
 
