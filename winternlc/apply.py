@@ -1,24 +1,25 @@
+import argparse
+import logging
 import os
 from pathlib import Path
 
+import numpy as np
 from astropy.io import fits
-import logging
+
+from winternlc.config import DEFAULT_CUTOFF, corrections_dir
+from winternlc.get_corrections import check_for_files
 from winternlc.mask import mask_single
 from winternlc.non_linear_correction import nlc_single
-from winternlc.get_corrections import check_for_files
-from winternlc.config import DEFAULT_CUTOFF, corrections_dir
-import argparse
-import numpy as np
 
 logger = logging.getLogger(__name__)
 
 
 def apply_nlc_mef(
-        fits_file: Path,
-        save_dir: Path | str | None = None,
-        cor_dir: Path = corrections_dir,
-        cutoff: float = DEFAULT_CUTOFF,
-        output_suffix: str | None = "corrected_"
+    fits_file: Path,
+    save_dir: Path | str | None = None,
+    cor_dir: Path = corrections_dir,
+    cutoff: float = DEFAULT_CUTOFF,
+    output_suffix: str | None = "corrected_",
 ):
     """
     Process a multi-extension FITS file, applying nonlinearity correction to each
@@ -55,10 +56,10 @@ def apply_nlc_mef(
 
 
 def apply_mask_mef(
-        fits_file: str | Path,
-        save_dir: Path | str | None = None,
-        cor_dir: Path = corrections_dir,
-        output_suffix: str | None = "masked_"
+    fits_file: str | Path,
+    save_dir: Path | str | None = None,
+    cor_dir: Path = corrections_dir,
+    output_suffix: str | None = "masked_",
 ):
     """
     Process a multi-extension FITS file, applying nonlinearity correction to each
@@ -102,14 +103,18 @@ def nlc_cli():
         description="Apply non-linearity correction to multi-extension FITS file"
     )
     parser.add_argument(
-        "--mask", action="store_true", help="Apply bad pixel mask instead of NLC",
-        default=False
+        "--mask",
+        action="store_true",
+        help="Apply bad pixel mask instead of NLC",
+        default=False,
     )
     parser.add_argument(
-        "-o", "--output_dir", default=None,
+        "-o",
+        "--output_dir",
+        default=None,
         type=str,
         help="Directory to save the corrected FITS file(s) "
-             "(default: same as input file)",
+        "(default: same as input file)",
     )
     parser.add_argument("files", nargs="+", help="FITS file(s) to correct")
 

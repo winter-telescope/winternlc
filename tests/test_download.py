@@ -7,7 +7,6 @@ import unittest
 
 from winternlc.get_corrections import check_for_files
 
-
 logger = logging.getLogger(__name__)
 
 

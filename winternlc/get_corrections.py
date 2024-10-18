@@ -1,9 +1,11 @@
 """
 Module to download the correction files from Zenodo.
 """
+
 import logging
 import subprocess
 from pathlib import Path
+
 from winternlc.config import corrections_dir
 from winternlc.zenodo import ZENODO_URL
 
@@ -73,5 +75,6 @@ def check_for_files():
 
 if __name__ == "__main__":
     import logging
+
     logging.basicConfig(level=logging.DEBUG)
     check_for_files()

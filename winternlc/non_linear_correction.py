@@ -22,7 +22,9 @@ def get_coeffs_path(board_id: int, cor_dir: Path = corrections_dir) -> Path:
     return cor_dir / f"rat_coeffs_board_{board_id}.npy"
 
 
-def load_rational_coeffs(board_id: int, cor_dir: Path | str = corrections_dir) -> np.ndarray:
+def load_rational_coeffs(
+    board_id: int, cor_dir: Path | str = corrections_dir
+) -> np.ndarray:
     """
     Loads the rational coefficients for a given board ID.
 
@@ -69,7 +71,10 @@ def apply_nonlinearity_correction(
 
 
 def nlc_single(
-    image: np.ndarray, board_id: int, cor_dir: str | Path = corrections_dir, cutoff: float = DEFAULT_CUTOFF
+    image: np.ndarray,
+    board_id: int,
+    cor_dir: str | Path = corrections_dir,
+    cutoff: float = DEFAULT_CUTOFF,
 ) -> np.ndarray:
     """
     Applies non-linearity correction to an image using precomputed rational coefficients.

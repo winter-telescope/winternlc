@@ -1,6 +1,7 @@
-from pathlib import Path
 import logging
 import os
+from pathlib import Path
+
 from winternlc.zenodo import CURRENT_ZENODO_VERSION
 
 logger = logging.getLogger(__name__)
@@ -12,7 +13,9 @@ data_dir = code_dir.parent / "data"
 example_data_dir = data_dir / "example_data"
 
 EXAMPLE_IMG_PATH = example_data_dir / "example_science_image_mef.fits"
-EXAMPLE_CORRECTED_IMG_PATH = example_data_dir / "corrected_example_science_image_mef.fits"
+EXAMPLE_CORRECTED_IMG_PATH = (
+    example_data_dir / "corrected_example_science_image_mef.fits"
+)
 EXAMPLE_MASKED_IMG_PATH = example_data_dir / "masked_example_science_image_mef.fits"
 
 _corrections_dir = os.getenv("WINTERNLC_DIR")

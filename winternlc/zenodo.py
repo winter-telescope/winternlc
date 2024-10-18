@@ -1,6 +1,7 @@
 """
 This module contains the Zenodo version and URL mapping for the WinterNLC project.
 """
+
 import os
 
 CURRENT_ZENODO_VERSION = "v1.1"
@@ -13,6 +14,8 @@ _ZENODO_URL_MAP = {
     "v1.1": "https://zenodo.org/api/records/13905772/files-archive",
 }
 
-assert ZENODO_VERSION in _ZENODO_URL_MAP, f"Version {ZENODO_VERSION} is not available. Please choose from {_ZENODO_URL_MAP.keys()}"
+assert (
+    ZENODO_VERSION in _ZENODO_URL_MAP
+), f"Version {ZENODO_VERSION} is not available. Please choose from {_ZENODO_URL_MAP.keys()}"
 
 ZENODO_URL = _ZENODO_URL_MAP[ZENODO_VERSION]

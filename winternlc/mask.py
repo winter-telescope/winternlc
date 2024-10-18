@@ -1,7 +1,9 @@
 from pathlib import Path
-from winternlc.config import corrections_dir
 
 import numpy as np
+
+from winternlc.config import corrections_dir
+
 
 def get_mask_path(board_id: int, cor_dir: Path = corrections_dir) -> Path:
     """
@@ -15,7 +17,10 @@ def get_mask_path(board_id: int, cor_dir: Path = corrections_dir) -> Path:
     return cor_dir / f"bad_pixel_mask_board_{board_id}.npy"
 
 
-def load_mask(board_id: int, cor_dir: Path | str, ) -> np.ndarray:
+def load_mask(
+    board_id: int,
+    cor_dir: Path | str,
+) -> np.ndarray:
     """
     Loads the rational coefficients for a given board ID.
 
@@ -47,7 +52,9 @@ def apply_mask(image: np.ndarray, mask: np.ndarray) -> np.ndarray:
     return image
 
 
-def mask_single(image: np.ndarray, board_id: int, cor_dir: str | Path = corrections_dir) -> np.ndarray:
+def mask_single(
+    image: np.ndarray, board_id: int, cor_dir: str | Path = corrections_dir
+) -> np.ndarray:
     """
     Applies a bad pixel mask to an image.
 

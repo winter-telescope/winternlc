@@ -300,7 +300,9 @@ def load_and_plot_rational(
                 f"rat_coeffs_board_{board_ids_by_extension[ext]}_ext_{ext}_test.npy",
             )
         else:
-            rat_coeffs_path = get_coeffs_path(board_id=board_ids_by_extension[ext], cor_dir=output_dir)
+            rat_coeffs_path = get_coeffs_path(
+                board_id=board_ids_by_extension[ext], cor_dir=output_dir
+            )
 
         if os.path.exists(rat_coeffs_path):
             rat_coeffs = np.load(rat_coeffs_path)
