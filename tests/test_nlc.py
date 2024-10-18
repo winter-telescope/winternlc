@@ -15,7 +15,7 @@ from winternlc.mask import mask_single
 logger = logging.getLogger(__name__)
 
 
-class TestSchedule(unittest.TestCase):
+class TestNLC(unittest.TestCase):
     """
     Class for testing API
     """
@@ -33,7 +33,9 @@ class TestSchedule(unittest.TestCase):
                 header = hdul[ext].header
                 image = hdul[ext].data
                 board_id = header.get("BOARD_ID", None)
-                print(f"Processing extension {ext} with BOARD_ID {board_id}")
+                if (board_id is None) | (board_id == 4):
+                    continue
+                logger.info(f"Processing extension {ext} with BOARD_ID {board_id}")
                 corrected_image = nlc_single(image, board_id)
 
                 comparison_image = hdul_corrected[ext].data
@@ -61,7 +63,9 @@ class TestSchedule(unittest.TestCase):
                 header = hdul[ext].header
                 image = hdul[ext].data
                 board_id = header.get("BOARD_ID", None)
-                print(f"Processing extension {ext} with BOARD_ID {board_id}")
+                if (board_id is None) | (board_id == 4):
+                    continue
+                logger.info(f"Processing extension {ext} with BOARD_ID {board_id}")
                 corrected_image = mask_single(
                     image, board_id
                 )

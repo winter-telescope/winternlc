@@ -3,7 +3,6 @@ from winternlc.config import corrections_dir
 
 import numpy as np
 
-
 def get_mask_path(board_id: int, cor_dir: Path = corrections_dir) -> Path:
     """
     Returns the path to the rational coefficients file for a given board ID.
