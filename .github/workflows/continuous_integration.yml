@@ -40,13 +40,8 @@ jobs:
         run: |
           pip install --editable ".[dev]"
 
-#      - name: Run tests
-#        env:
-#          WINTER_API_USER: ${{ secrets.WINTER_API_USER }}
-#          WINTER_API_PASSWORD: ${{ secrets.WINTER_API_PASSWORD }}
-#          WINTER_API_PROGRAM: ${{ secrets.WINTER_API_PROGRAM }}
-#          WINTER_API_KEY: ${{ secrets.WINTER_API_KEY }}
-#        run: coverage run -m unittest discover tests
+      - name: Run tests
+        run: coverage run -m unittest discover tests
 
       - name: Run Coveralls
         continue-on-error: true
