@@ -1,0 +1,2 @@
+exclude data/*
+global-exclude *.fits

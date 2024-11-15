@@ -52,7 +52,10 @@ Homepage = "https://github.com/winter-telescope/winternlc"
 winternlc-apply = "winternlc.apply:nlc_cli"
 
 [tool.setuptools]
-packages = ["winternlc"]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["winternlc*"]
 
 [tool.coverage.run]
 source = ["winternlc"]
