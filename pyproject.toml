@@ -59,6 +59,7 @@ include = ["winternlc*"]
 
 [tool.coverage.run]
 source = ["winternlc"]
+omit = ["winternlc/create/*"]
 
 [tool.coverage.report]
 # Regexes for lines to exclude from consideration
