@@ -2,20 +2,26 @@
 This module contains the Zenodo version and URL mapping for the WinterNLC project.
 """
 
-import os
+LATEST_ZENODO_VERSION = "v1.1"
 
-CURRENT_ZENODO_VERSION = "v1.1"
-
-ZENODO_VERSION = os.getenv("WINTERNLC_VERSION", CURRENT_ZENODO_VERSION)
-
-_ZENODO_URL_MAP = {
+ZENODO_URL_MAP = {
     "v0.1": "https://zenodo.org/api/records/13905735/files-archive",
     "v1.0": "https://zenodo.org/api/records/13863497/files-archive",
     "v1.1": "https://zenodo.org/api/records/13905772/files-archive",
 }
 
-assert (
-    ZENODO_VERSION in _ZENODO_URL_MAP
-), f"Version {ZENODO_VERSION} is not available. Please choose from {_ZENODO_URL_MAP.keys()}"
 
-ZENODO_URL = _ZENODO_URL_MAP[ZENODO_VERSION]
+def get_zenodo_url(version: str = LATEST_ZENODO_VERSION) -> str:
+    """
+    Returns the Zenodo URL for a given version of the WinterNLC project.
+
+    :param version: Version of the WinterNLC project
+
+    :return: Zenodo URL
+    """
+
+    assert (
+        version in ZENODO_URL_MAP
+    ), f"Version {version} is not available. Please choose from {ZENODO_URL_MAP.keys()}"
+
+    return ZENODO_URL_MAP[version]

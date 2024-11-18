@@ -16,9 +16,13 @@ import numpy as np
 from scipy.optimize import curve_fit
 
 from winternlc.config import DEFAULT_CUTOFF, output_directory, test_directory
+from winternlc.create.utils import (
+    extract_pixel_values,
+    find_median_files,
+    get_exposure_time,
+)
 from winternlc.mask import get_mask_path
 from winternlc.non_linear_correction import get_coeffs_path
-from winternlc.utils import extract_pixel_values, find_median_files, get_exposure_time
 
 
 def create_rational_func(num_params: int) -> Callable[[float], float]:

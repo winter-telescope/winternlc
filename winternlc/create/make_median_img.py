@@ -11,7 +11,7 @@ from collections import defaultdict
 import numpy as np
 from astropy.io import fits
 
-from winternlc.utils import get_exposure_time
+from winternlc.create.utils import get_exposure_time
 
 
 def find_files(directory: str) -> list[str]:

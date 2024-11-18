@@ -9,10 +9,15 @@ Created on Wed Jun 12 08:04:11 2024
 import os
 from collections import defaultdict
 
+import matplotlib.pyplot as plt
 import numpy as np
 from config import DEFAULT_CUTOFF, output_directory, test_directory
 
-from winternlc.utils import extract_pixel_values, find_median_files, get_exposure_time
+from winternlc.create.utils import (
+    extract_pixel_values,
+    find_median_files,
+    get_exposure_time,
+)
 
 
 def fit_polynomial_to_pixels(
@@ -50,7 +55,6 @@ def fit_polynomial_to_pixels(
 
         if len(pixel_series) >= order + 1:
             try:
-
                 x = np.array(pixel_series) / cutoff
                 y = valid_exposure_times / np.max(valid_exposure_times)
                 poly_coeffs = np.polyfit(x, y, order)

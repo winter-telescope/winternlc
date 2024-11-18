@@ -1,15 +1,18 @@
+"""
+Apply non-linearity correction to multi-extension FITS file(s)
+"""
+
 import argparse
 import logging
-import os
 from pathlib import Path
 
 import numpy as np
 from astropy.io import fits
 
-from winternlc.config import DEFAULT_CUTOFF, corrections_dir
+from winternlc.config import DEFAULT_CUTOFF
 from winternlc.get_corrections import check_for_files
-from winternlc.mask import mask_single
-from winternlc.non_linear_correction import nlc_single
+from winternlc.mask import apply_mask_single
+from winternlc.non_linear_correction import apply_nlc_single
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +20,7 @@ logger = logging.getLogger(__name__)
 def apply_nlc_mef(
     fits_file: Path,
     save_dir: Path | str | None = None,
-    cor_dir: Path = corrections_dir,
+    version: str | None = None,
     cutoff: float = DEFAULT_CUTOFF,
     output_suffix: str | None = "corrected_",
 ):
@@ -27,7 +30,7 @@ def apply_nlc_mef(
 
     :param fits_file: Path to the FITS file
     :param save_dir: Directory to save the corrected FITS file
-    :param cor_dir: Directory containing the correction files
+    :param version: Version of the WinterNLC corrections
     :param cutoff: Cutoff value for the correction
     :param output_suffix: Suffix to append to the output file name
 
@@ -39,12 +42,7 @@ def apply_nlc_mef(
         for ext in range(1, len(hdul)):
             header = hdul[ext].header
             image = hdul[ext].data
-            board_id = header.get("BOARD_ID", None)
-            try:
-                corrected_image = nlc_single(image, board_id, cor_dir, cutoff)
-            except FileNotFoundError:
-                logger.warning(f"No correction file found for board ID {board_id}")
-                corrected_image = np.nan * image
+            corrected_image = apply_nlc_single(image, header, version, cutoff)
             hdul[ext].data = corrected_image
 
         if save_dir is None:
@@ -52,13 +50,13 @@ def apply_nlc_mef(
 
         corrected_fits_file = save_dir / f"{output_suffix}{fits_file.name}"
         hdul.writeto(corrected_fits_file, overwrite=True)
-        print(f"Corrected FITS file saved to {corrected_fits_file}")
+        logger.info(f"Corrected FITS file saved to {corrected_fits_file}")
 
 
 def apply_mask_mef(
     fits_file: str | Path,
     save_dir: Path | str | None = None,
-    cor_dir: Path = corrections_dir,
+    version: str | None = None,
     output_suffix: str | None = "masked_",
 ):
     """
@@ -67,7 +65,7 @@ def apply_mask_mef(
 
     :param fits_file: Path to the FITS file
     :param save_dir: Directory to save the corrected FITS file
-    :param cor_dir: Directory containing the correction files
+    :param version: Version of the WinterNLC corrections, default is None
     :param output_suffix: Suffix to append to the output file name
 
     :return: None
@@ -78,12 +76,7 @@ def apply_mask_mef(
         for ext in range(1, len(hdul)):
             header = hdul[ext].header
             image = hdul[ext].data
-            board_id = header.get("BOARD_ID", None)
-            try:
-                corrected_image = mask_single(image, board_id, cor_dir)
-            except FileNotFoundError:
-                logger.warning(f"No correction file found for board ID {board_id}")
-                corrected_image = np.nan * image
+            corrected_image = apply_mask_single(image, header, version)
             hdul[ext].data = corrected_image
 
         if save_dir is None:
@@ -115,6 +108,13 @@ def nlc_cli():
         type=str,
         help="Directory to save the corrected FITS file(s) "
         "(default: same as input file)",
+    )
+    parser.add_argument(
+        "-v",
+        "--version",
+        default=None,
+        type=str,
+        help="Version of the WinterNLC corrections to use",
     )
     parser.add_argument("files", nargs="+", help="FITS file(s) to correct")
 

@@ -13,8 +13,8 @@ from winternlc.config import (
     EXAMPLE_IMG_PATH,
     EXAMPLE_MASKED_IMG_PATH,
 )
-from winternlc.mask import mask_single
-from winternlc.non_linear_correction import nlc_single
+from winternlc.mask import apply_mask_single
+from winternlc.non_linear_correction import apply_nlc_single
 
 logger = logging.getLogger(__name__)
 
@@ -39,11 +39,8 @@ class TestNLC(unittest.TestCase):
             for ext in range(1, len(hdul)):
                 header = hdul[ext].header
                 image = hdul[ext].data
-                board_id = header.get("BOARD_ID", None)
-                if (board_id is None) | (board_id == 4):
-                    continue
-                logger.info(f"Processing extension {ext} with BOARD_ID {board_id}")
-                corrected_image = nlc_single(image, board_id)
+                logger.info(f"Processing extension {ext}")
+                corrected_image = apply_nlc_single(image, header)
 
                 comparison_image = hdul_corrected[ext].data
 
@@ -72,11 +69,7 @@ class TestNLC(unittest.TestCase):
             for ext in range(1, len(hdul)):
                 header = hdul[ext].header
                 image = hdul[ext].data
-                board_id = header.get("BOARD_ID", None)
-                if (board_id is None) | (board_id == 4):
-                    continue
-                logger.info(f"Processing extension {ext} with BOARD_ID {board_id}")
-                corrected_image = mask_single(image, board_id)
+                corrected_image = apply_mask_single(image, header)
 
                 comparison_image = hdul_corrected[ext].data
 
