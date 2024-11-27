@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "winternlc"
-version = "1.3.0"
+version = "1.3.1"
 description = ""
 authors = [
     {name = "Danielle Frostig", email = "frostig@mit.edu"},
@@ -50,6 +50,7 @@ Homepage = "https://github.com/winter-telescope/winternlc"
 
 [project.scripts]
 winternlc-apply = "winternlc.apply:nlc_cli"
+winternlc-check = "winternlc.get_corrections:check_for_files"
 
 [tool.setuptools]
 include-package-data = false
