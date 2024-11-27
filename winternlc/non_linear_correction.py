@@ -2,14 +2,18 @@
 Module for applying nonlinearity correction and bad pixel masking to images.
 """
 
+import logging
 from pathlib import Path
 
 import numpy as np
 from astropy.io import fits
 
 from winternlc.config import DEFAULT_CUTOFF, get_correction_dir
+from winternlc.get_corrections import check_for_files
 from winternlc.rational import rational_func
 from winternlc.versions import get_nlc_version
+
+logger = logging.getLogger(__name__)
 
 
 def get_coeffs_path(board_id: int, version: str) -> Path:
@@ -114,4 +118,11 @@ def apply_nlc_single(
     if version is None:
         version = get_nlc_version(header)
 
-    return nlc_single(image, board_id, version, cutoff)
+    try:
+        return nlc_single(image, board_id, version, cutoff)
+    except FileNotFoundError as e:
+        logger.warning(
+            f"Error applying NLC to image: {e} \n " f"Checking that files are present"
+        )
+        check_for_files()
+        return nlc_single(image, board_id, version, cutoff)

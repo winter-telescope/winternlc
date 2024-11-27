@@ -1,10 +1,18 @@
+"""
+Functions for applying bad pixel masks to images.
+"""
+
+import logging
 from pathlib import Path
 
 import numpy as np
 from astropy.io import fits
 
 from winternlc.config import get_correction_dir
+from winternlc.get_corrections import check_for_files
 from winternlc.versions import get_nlc_version
+
+logger = logging.getLogger(__name__)
 
 
 def get_mask_path(board_id: int, version: str) -> Path:
@@ -89,4 +97,11 @@ def apply_mask_single(
     if version is None:
         version = get_nlc_version(header)
 
-    return mask_single(image, board_id, version)
+    try:
+        return mask_single(image, board_id, version)
+    except FileNotFoundError as e:
+        logger.warning(
+            f"Error applying mask to image: {e} \n " f"Checking that files are present"
+        )
+        check_for_files()
+        return mask_single(image, board_id, version)
