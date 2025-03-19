@@ -22,10 +22,9 @@ def get_nlc_version(header: fits.header) -> str:
     fallback_version = LATEST_ZENODO_VERSION
     board_id = header["BOARD_ID"]
 
-    # Get image observation date
-    obs_date = datetime.strptime(header["DATE-OBS"].split('.')[0], "%Y-%m-%dT%H:%M:%S")
-
     try:
+        # Get image observation date
+        obs_date = datetime.strptime(header["DATE-OBS"].split('.')[0], "%Y-%m-%dT%H:%M:%S")
         # Select the latest version valid for the observation date
         version = max((v for v, d in VERSION_DATES.items() if d <= obs_date), default=fallback_version, key=VERSION_DATES.get)
     except:
