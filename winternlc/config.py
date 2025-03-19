@@ -1,5 +1,6 @@
 import logging
 import os
+from datetime import datetime
 from pathlib import Path
 
 from winternlc.zenodo import LATEST_ZENODO_VERSION, ZENODO_URL_MAP
@@ -51,5 +52,11 @@ def get_correction_dir(version: str = LATEST_ZENODO_VERSION) -> Path:
 test_directory = "/data/flats_iwr/20240610"
 output_directory = data_dir / f"linearity_corrections/{LATEST_ZENODO_VERSION}"
 
-# variables
+# variables and dates
 DEFAULT_CUTOFF = 56000
+
+VERSION_DATES = {
+    "v0.1": datetime(2024, 6, 1),
+    "v1.0": datetime(2024, 8, 3),
+    "v1.1": datetime(2024, 8, 4),
+}
