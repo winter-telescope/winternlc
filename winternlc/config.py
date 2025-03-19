@@ -1,7 +1,7 @@
 import logging
 import os
 from pathlib import Path
-
+from datetime import datetime
 from winternlc.zenodo import LATEST_ZENODO_VERSION, ZENODO_URL_MAP
 
 logger = logging.getLogger(__name__)
@@ -53,3 +53,10 @@ output_directory = data_dir / f"linearity_corrections/{LATEST_ZENODO_VERSION}"
 
 # variables
 DEFAULT_CUTOFF = 56000
+
+VERSION_DATES = {
+    "v0.1": datetime(2024, 6, 1),
+    "v1.0": datetime(2024, 8, 3),
+    "v1.1": datetime(2024, 8, 4),
+}
+    
