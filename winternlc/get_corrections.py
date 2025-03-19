@@ -5,8 +5,7 @@ Module to download the correction files from Zenodo.
 import logging
 import subprocess
 from pathlib import Path
-import sys
-sys.path.insert(0, '/Users/frostig/GIT/winternlc')
+
 from winternlc.config import get_correction_dir
 from winternlc.zenodo import ZENODO_URL_MAP, get_zenodo_url
 
