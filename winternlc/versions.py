@@ -6,9 +6,9 @@ from datetime import datetime
 
 from astropy.io import fits
 
+from winternlc.config import VERSION_DATES
 from winternlc.zenodo import LATEST_ZENODO_VERSION
 
-from winternlc.config import VERSION_DATES
 
 def get_nlc_version(header: fits.header) -> str:
     """
@@ -24,14 +24,20 @@ def get_nlc_version(header: fits.header) -> str:
 
     try:
         # Get image observation date
-        obs_date = datetime.strptime(header["DATE-OBS"].split('.')[0], "%Y-%m-%dT%H:%M:%S")
+        obs_date = datetime.strptime(
+            header["DATE-OBS"].split(".")[0], "%Y-%m-%dT%H:%M:%S"
+        )
         # Select the latest version valid for the observation date
-        version = max((v for v, d in VERSION_DATES.items() if d <= obs_date), default=fallback_version, key=VERSION_DATES.get)
+        version = max(
+            (v for v, d in VERSION_DATES.items() if d <= obs_date),
+            default=fallback_version,
+            key=VERSION_DATES.get,
+        )
     except:
         version = fallback_version
 
     # hacky overwrite, since the v0.1 version is not available for board_id 4
-    # remove with new corrections 
+    # remove with new corrections
     if board_id == 4:
         version = "v0.1"
 
