@@ -38,7 +38,7 @@ def get_nlc_version(header: fits.header) -> str:
 
     # hacky overwrite, since the v0.1 version is not available for board_id 4
     # remove with new corrections
-    if board_id == 4:
+    if board_id == 4 or board_id == 6 or board_id == 1:
         version = "v0.1"
 
     return version
