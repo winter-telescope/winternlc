@@ -19,7 +19,9 @@ logger = logging.getLogger(__name__)
 
 
 def test_apply_nlc_single(
-    EXAMPLE_IMG_PATH, CORRECTED_IMG_PATH, MASKED_IMG_PATH, version="v2.0"
+    EXAMPLE_IMG_PATH,
+    CORRECTED_IMG_PATH,
+    MASKED_IMG_PATH,
 ):
     """
     Creates two output files:
@@ -43,10 +45,10 @@ def test_apply_nlc_single(
             logger.info(f"Processing extension {ext}, BOARD_ID {board_id}")
 
             # Apply correction
-            corrected_image = apply_nlc_single(image, header, version=version)
+            corrected_image = apply_nlc_single(image, header)
 
             # Apply mask only
-            masked_image = apply_mask_single(image, header, version=version)
+            masked_image = apply_mask_single(image, header)
 
             # Clean up headers
             for key in ["BSCALE", "BZERO", "BUNIT"]:
