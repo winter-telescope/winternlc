@@ -36,6 +36,7 @@ class TestNLC(unittest.TestCase):
             fits.open(EXAMPLE_IMG_PATH) as hdul,
             fits.open(EXAMPLE_CORRECTED_IMG_PATH) as hdul_corrected,
         ):
+            print(EXAMPLE_IMG_PATH, EXAMPLE_CORRECTED_IMG_PATH)
             for ext in range(1, len(hdul)):
                 header = hdul[ext].header
                 image = hdul[ext].data
@@ -66,6 +67,7 @@ class TestNLC(unittest.TestCase):
             fits.open(EXAMPLE_IMG_PATH) as hdul,
             fits.open(EXAMPLE_MASKED_IMG_PATH) as hdul_corrected,
         ):
+            print(EXAMPLE_IMG_PATH, EXAMPLE_MASKED_IMG_PATH)
             for ext in range(1, len(hdul)):
                 header = hdul[ext].header
                 image = hdul[ext].data

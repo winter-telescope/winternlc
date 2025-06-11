@@ -7,17 +7,15 @@ Created on Wed Jun 12 08:04:11 2024
 """
 
 import os
+import sys
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
 import numpy as np
-from config import DEFAULT_CUTOFF, output_directory, test_directory
+from utils import extract_pixel_values, find_median_files, get_exposure_time
 
-from winternlc.create.utils import (
-    extract_pixel_values,
-    find_median_files,
-    get_exposure_time,
-)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+from config import DEFAULT_CUTOFF, output_directory, test_directory
 
 
 def fit_polynomial_to_pixels(

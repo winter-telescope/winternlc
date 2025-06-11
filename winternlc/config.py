@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from winternlc.zenodo import LATEST_ZENODO_VERSION, ZENODO_URL_MAP
+from .zenodo import LATEST_ZENODO_VERSION, ZENODO_URL_MAP
 
 logger = logging.getLogger(__name__)
 
@@ -12,6 +12,8 @@ code_dir = Path(__file__).parent
 data_dir = code_dir.parent / "data"
 
 example_data_dir = data_dir / "example_data"
+
+available_versions = ["v0.1", "v1.0", "v1.1", "v2.0"]
 
 EXAMPLE_IMG_PATH = example_data_dir / "example_science_image_mef.fits"
 EXAMPLE_CORRECTED_IMG_PATH = (
@@ -39,9 +41,10 @@ def get_correction_dir(version: str = LATEST_ZENODO_VERSION) -> Path:
     :return: Path to the correction data directory
     """
 
+    available_versions = ["v0.1", "v1.0", "v1.1", "v2.0"]
     assert (
-        version in ZENODO_URL_MAP
-    ), f"Version {version} is not available. Please choose from {ZENODO_URL_MAP.keys()}"
+        version in available_versions
+    ), f"Version {version} is not available. Please choose from {available_versions}"
 
     corrections_dir = base_corrections_dir / version
     corrections_dir.mkdir(parents=True, exist_ok=True)
@@ -54,9 +57,13 @@ output_directory = data_dir / f"linearity_corrections/{LATEST_ZENODO_VERSION}"
 
 # variables and dates
 DEFAULT_CUTOFF = 56000
+CROSSOVER_POINT = 25_000
+ORDER_LOWER = 11
+ORDER_UPPER = 5
 
 VERSION_DATES = {
     "v0.1": datetime(2024, 6, 1),
     "v1.0": datetime(2024, 8, 3),
     "v1.1": datetime(2024, 8, 4),
+    "v2.0": datetime(2025, 2, 1),
 }

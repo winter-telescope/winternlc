@@ -23,12 +23,31 @@ def check_files(version: str) -> bool:
 
 def rename_files(path: Path):
     """
-    Remove useless part of the filename
+    Normalize filenames by removing '_extXYZ' and duplicate '.npy' extensions,
+    but skip files that are already in final form (e.g., bad_pixel_mask_board_1.npy).
     """
     old_name = path.name
-    new_name = str(old_name).split("_ext")[0] + path.suffix
-    logger.info(f"Renaming {old_name} to {new_name}")
-    path.rename(path.with_name(new_name))
+    base = path.stem  # removes last .npy
+
+    # Handle case where base still ends with '.npy' (double suffix)
+    if base.endswith(".npy"):
+        base = Path(base).stem
+
+    # Skip if already in clean form (no '_ext' and single '.npy')
+    if "_ext" not in base:
+        logger.debug(f"Skipping rename: {old_name} is already clean")
+        return
+
+    new_base = base.split("_ext")[0]
+    new_name = new_base + ".npy"
+
+    new_path = path.with_name(new_name)
+    if new_path.exists():
+        logger.warning(f"Skipping rename: {new_path.name} already exists")
+        return
+
+    logger.info(f"Renaming {old_name} → {new_name}")
+    path.rename(new_path)
 
 
 def download_files(version: str):

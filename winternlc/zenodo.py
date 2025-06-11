@@ -8,6 +8,7 @@ ZENODO_URL_MAP = {
     "v0.1": "https://zenodo.org/api/records/13905735/files-archive",
     "v1.0": "https://zenodo.org/api/records/13863497/files-archive",
     "v1.1": "https://zenodo.org/api/records/13905772/files-archive",
+    "v2.0": "https://zenodo.org/api/records/15641673/files-archive",
 }
 
 
