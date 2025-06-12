@@ -3,20 +3,11 @@ import sys
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
+import matplotlib.pyplot as plt
 import numpy as np
+from joblib import Parallel, delayed
 from split_linpoly_corrections import apply_nlc_correction, compute_correction_poly
 from utils import extract_pixel_values, find_median_files, get_exposure_time
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
-# from config import output_directory, test_directory
-import matplotlib.pyplot as plt
-from joblib import Parallel, delayed
-
-# LINEAR_REGION_MINCOUNTS = 20000
-# LINEAR_REGION_MAXCOUNTS = 50000
-# SATURATION = 54000
-# EXTRA = 2000
-# BAD_PIXEL_STD_THRESHOLD = 500
 
 CORRECTION_CEILING = 55_000  # counts
 CROSSOVER_POINT = 25_000  # counts
@@ -260,7 +251,7 @@ def plot_roi_correction(
         )
         # fig.show()
         plt.close(fig)
-        """
+
         plt.figure(figsize=(6, 6))
         if bad_pixel_mask is not None:
             for dy in range(y1 - y0):
@@ -279,7 +270,6 @@ def plot_roi_correction(
             dpi=300,
         )
         plt.close()
-        """
 
         # Plot full-frame bad pixel mask as a scatter plot
         if bad_pixel_mask is not None:
