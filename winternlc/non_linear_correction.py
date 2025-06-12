@@ -122,7 +122,7 @@ def apply_nonlinearity_correction(
     image: np.ndarray,
     coefficients: np.ndarray,
     cutoff: float = DEFAULT_CUTOFF,
-    version: str = "v1.0",
+    version: str = "v2.0",
     crossover_point: float = CROSSOVER_POINT,
     ceiling: float | None = None,
 ) -> np.ndarray:
