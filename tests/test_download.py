@@ -23,4 +23,4 @@ class TestDownload(unittest.TestCase):
         """
         logger.info("Testing nlc")
 
-        check_for_files()
+        check_for_files(version="v2.0")

@@ -84,19 +84,19 @@ def download_files(version: str):
         rename_files(path)
 
 
-def check_for_files():
+def check_for_files(version: str = None):
     """
     Check if the correction files are present in the correction directory.
-
-    :return: None
+    If version is specified, check/download only that version.
     """
+    versions = [version] if version else ZENODO_URL_MAP.keys()
 
-    for version in ZENODO_URL_MAP.keys():
-        if not check_files(version):
-            logger.info(f"Correction files found for {version}")
-            download_files(version)
+    for v in versions:
+        if not check_files(v):
+            logger.info(f"Correction files not found for {v}, downloading...")
+            download_files(v)
         else:
-            logger.debug(f"Correction files already present in {version}")
+            logger.debug(f"Correction files already present for {v}")
 
 
 if __name__ == "__main__":
