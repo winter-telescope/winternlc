@@ -69,8 +69,8 @@ def test_apply_nlc_single(
         corrected_hdul.writeto(CORRECTED_IMG_PATH, overwrite=True)
         masked_hdul.writeto(MASKED_IMG_PATH, overwrite=True)
 
-        print(f"✔ Corrected image saved to {CORRECTED_IMG_PATH}")
-        print(f"✔ Masked image saved to {MASKED_IMG_PATH}")
+        logger.info(f"✔ Corrected image saved to {CORRECTED_IMG_PATH}")
+        logger.info(f"✔ Masked image saved to {MASKED_IMG_PATH}")
 
 
 if __name__ == "__main__":
