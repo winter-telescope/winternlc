@@ -2,7 +2,7 @@
 This module contains the Zenodo version and URL mapping for the WinterNLC project.
 """
 
-LATEST_ZENODO_VERSION = "v1.1"
+LATEST_ZENODO_VERSION = "v2.0"
 
 ZENODO_URL_MAP = {
     "v0.1": "https://zenodo.org/api/records/13905735/files-archive",

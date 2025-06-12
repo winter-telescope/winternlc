@@ -157,7 +157,7 @@ def apply_nonlinearity_correction(
 def nlc_single(
     image: np.ndarray,
     board_id: int,
-    version: str,
+    version: str = "v2.0",
     cutoff: float = DEFAULT_CUTOFF,
 ) -> np.ndarray:
     """
