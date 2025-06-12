@@ -4,19 +4,17 @@ from collections import defaultdict
 
 import matplotlib.pyplot as plt
 import numpy as np
+from numpy.polynomial import Chebyshev
 from utils import extract_pixel_values, find_median_files, get_exposure_time
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
-from config import DEFAULT_CUTOFF, output_directory, test_directory
-from numpy.polynomial import Chebyshev
+from winternlc.config import DEFAULT_CUTOFF, output_directory, test_directory
 
 LINEAR_REGION_MINCOUNTS = 20000
 LINEAR_REGION_MAXCOUNTS = 50000
 SATURATION = 56000
-PLOT = False
 
 
-def compute_correction_poly(exposure_times, pixel_series, order, test=True):
+def compute_correction_poly(exposure_times, pixel_series, order, test=True, PLOT=False):
     counts = np.array(pixel_series, dtype=np.float64)
     exptime = np.array(exposure_times, dtype=np.float64)
 
@@ -37,16 +35,9 @@ def compute_correction_poly(exposure_times, pixel_series, order, test=True):
         plt.title("Step 2: Fit a line")
         plt.legend()
 
-    # mu_raw = counts[counts < SATURATION]
-    # mu_cal = np.polyval(linear_fit, exptime[counts < SATURATION])
     mask = counts < SATURATION
     mu_raw = counts[mask]
     mu_cal = np.polyval(linear_fit, exptime[mask])
-
-    print("counts.shape:", counts.shape)
-    print("exptime.shape:", exptime.shape)
-    print("counts[counts < SATURATION].shape:", mu_raw.shape)
-    print("exptime[counts < SATURATION].shape:", mu_cal.shape)
 
     if test and PLOT:
         plt.figure()
@@ -57,11 +48,7 @@ def compute_correction_poly(exposure_times, pixel_series, order, test=True):
         plt.title("Step 4: $\mu_{\mathrm{cal}}$ vs $\mu_{\mathrm{raw}}$")
         plt.legend()
 
-    # if mu_raw.size < order + 1:
-    #    return np.full(order + 1, np.nan)
-    print("order", order)
     poly_coeffs = np.polyfit(mu_raw, mu_cal, order)
-    print("poly_coeffs", poly_coeffs)
 
     if test and PLOT:
         plt.figure()
@@ -80,7 +67,6 @@ def compute_correction_poly(exposure_times, pixel_series, order, test=True):
         plt.legend()
 
         plt.figure()
-        # plt.plot(counts, np.polyval(linear_fit, exptime), label="Full data set")
         mu_new = np.linspace(np.min(mu_raw), np.max(mu_raw), 1000)
         plt.plot(
             mu_new,
@@ -95,7 +81,7 @@ def compute_correction_poly(exposure_times, pixel_series, order, test=True):
         plt.legend()
 
         #### 6. Save polynomial coefficents to a file
-        np.save("polynomial_coefficients.npy", poly_coeffs)
+        np.save(output_directory + "polynomial_coefficients.npy", poly_coeffs)
 
         #### 7. Apply correction to the data
         # Load coefficients from file
@@ -108,7 +94,6 @@ def compute_correction_poly(exposure_times, pixel_series, order, test=True):
 
         plt.figure()
         plt.plot(exptime, counts, "o", color="black", label="Raw data")
-        # plt.plot(exptime, np.polyval(loaded_poly_coeffs, counts), 'o', color='red', label="Corrected data")
         plt.plot(exptime, corr, ".", label="Corrected nominal data", color="purple")
         plt.legend()
         plt.xlabel("Exposure Time (s)")
@@ -121,7 +106,6 @@ def compute_correction_poly(exposure_times, pixel_series, order, test=True):
 def fit_correction_to_pixels(
     exposure_times, pixel_values, order, test=False, test_pixel=(0, 0)
 ):
-    print("order fit", order)
     if test:
         i, j = test_pixel
         pixel_series = [frame[i, j] for frame in pixel_values]
