@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from .zenodo import LATEST_ZENODO_VERSION, ZENODO_URL_MAP
+from winternlc.zenodo import LATEST_ZENODO_VERSION, ZENODO_URL_MAP
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +41,6 @@ def get_correction_dir(version: str = LATEST_ZENODO_VERSION) -> Path:
     :return: Path to the correction data directory
     """
 
-    available_versions = ["v0.1", "v1.0", "v1.1", "v2.0"]
     assert (
         version in available_versions
     ), f"Version {version} is not available. Please choose from {available_versions}"
