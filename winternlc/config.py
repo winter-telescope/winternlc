@@ -13,8 +13,6 @@ data_dir = code_dir.parent / "data"
 
 example_data_dir = data_dir / "example_data"
 
-available_versions = ["v0.1", "v1.0", "v1.1", "v2.0"]
-
 EXAMPLE_IMG_PATH = example_data_dir / "example_science_image_mef.fits"
 EXAMPLE_CORRECTED_IMG_PATH = (
     example_data_dir / "corrected_example_science_image_mef.fits"
@@ -42,8 +40,8 @@ def get_correction_dir(version: str = LATEST_ZENODO_VERSION) -> Path:
     """
 
     assert (
-        version in available_versions
-    ), f"Version {version} is not available. Please choose from {available_versions}"
+        version in ZENODO_URL_MAP
+    ), f"Version {version} is not available. Please choose from {ZENODO_URL_MAP.keys()}"
 
     corrections_dir = base_corrections_dir / version
     corrections_dir.mkdir(parents=True, exist_ok=True)
