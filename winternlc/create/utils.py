@@ -56,6 +56,6 @@ def extract_pixel_values(file: str | Path) -> tuple[list[np.ndarray], list[int]]
         for hdu in hdul:
             data = hdu.data
             if data is not None:
-                pixel_values.append(data)
+                pixel_values.append(data.astype(np.float64))
                 board_ids.append(hdu.header["BOARD_ID"])
     return pixel_values, board_ids

@@ -13,6 +13,8 @@ logger = logging.getLogger(__name__)
 class TestDownload(unittest.TestCase):
     """
     Class for testing
+
+    Only do v2.0 as the only relevant version
     """
 
     def test_download(self):
@@ -23,4 +25,4 @@ class TestDownload(unittest.TestCase):
         """
         logger.info("Testing nlc")
 
-        check_for_files()
+        check_for_files(version="v2.0")

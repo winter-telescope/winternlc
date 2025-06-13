@@ -54,9 +54,13 @@ output_directory = data_dir / f"linearity_corrections/{LATEST_ZENODO_VERSION}"
 
 # variables and dates
 DEFAULT_CUTOFF = 56000
+CROSSOVER_POINT = 25_000
+ORDER_LOWER = 11
+ORDER_UPPER = 5
 
 VERSION_DATES = {
     "v0.1": datetime(2024, 6, 1),
     "v1.0": datetime(2024, 8, 3),
     "v1.1": datetime(2024, 8, 4),
+    "v2.0": datetime(2025, 2, 1),
 }

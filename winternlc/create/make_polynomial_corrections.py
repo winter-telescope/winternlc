@@ -7,12 +7,13 @@ Created on Wed Jun 12 08:04:11 2024
 """
 
 import os
+import sys
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
 import numpy as np
-from config import DEFAULT_CUTOFF, output_directory, test_directory
 
+from winternlc.config import DEFAULT_CUTOFF, output_directory, test_directory
 from winternlc.create.utils import (
     extract_pixel_values,
     find_median_files,
@@ -244,7 +245,6 @@ def load_and_plot_polynomials(
                 color=colors[ext],
                 label=f"Signal BOARD_ID: {board_ids_by_extension[ext]}",
             )
-            # plt.plot(sorted_exposure_times, polynomial(sorted_exposure_times), linestyle='--', label=f'Fit BOARD_ID: {board_ids_by_extension[ext]}')
             plt.plot(
                 sorted_exposure_times,
                 cutoff * p(np.array(sorted_values) / cutoff),
@@ -273,10 +273,8 @@ if __name__ == "__main__":
 
     if test:
         # Plot pixel signal for the test pixel
-        print("plot pix sig")
         plot_pixel_signal(median_files, cutoff=DEFAULT_CUTOFF, test_pixel=test_pixel)
 
-        print("save poly coeff")
         # Save polynomial coefficients for the test pixel
         save_polynomial_coefficients(
             median_files,
@@ -287,7 +285,6 @@ if __name__ == "__main__":
             test_pixel=test_pixel,
         )
 
-        print("load poly coeff")
         # Load and plot the fitted polynomials for the test pixel
         load_and_plot_polynomials(
             median_files,

@@ -23,12 +23,31 @@ def check_files(version: str) -> bool:
 
 def rename_files(path: Path):
     """
-    Remove useless part of the filename
+    Normalize filenames by removing '_extXYZ' and duplicate '.npy' extensions,
+    but skip files that are already in final form (e.g., bad_pixel_mask_board_1.npy).
     """
     old_name = path.name
-    new_name = str(old_name).split("_ext")[0] + path.suffix
-    logger.info(f"Renaming {old_name} to {new_name}")
-    path.rename(path.with_name(new_name))
+    base = path.stem  # removes last .npy
+
+    # Handle case where base still ends with '.npy' (double suffix)
+    if base.endswith(".npy"):
+        base = Path(base).stem
+
+    # Skip if already in clean form (no '_ext' and single '.npy')
+    if "_ext" not in base:
+        logger.debug(f"Skipping rename: {old_name} is already clean")
+        return
+
+    new_base = base.split("_ext")[0]
+    new_name = new_base + ".npy"
+
+    new_path = path.with_name(new_name)
+    if new_path.exists():
+        logger.warning(f"Skipping rename: {new_path.name} already exists")
+        return
+
+    logger.info(f"Renaming {old_name} → {new_name}")
+    path.rename(new_path)
 
 
 def download_files(version: str):
@@ -65,19 +84,19 @@ def download_files(version: str):
         rename_files(path)
 
 
-def check_for_files():
+def check_for_files(version: str = None):
     """
     Check if the correction files are present in the correction directory.
-
-    :return: None
+    If version is specified, check/download only that version.
     """
+    versions = [version] if version else ZENODO_URL_MAP.keys()
 
-    for version in ZENODO_URL_MAP.keys():
-        if not check_files(version):
-            logger.info(f"Correction files found for {version}")
-            download_files(version)
+    for v in versions:
+        if not check_files(v):
+            logger.info(f"Correction files not found for {v}, downloading...")
+            download_files(v)
         else:
-            logger.debug(f"Correction files already present in {version}")
+            logger.debug(f"Correction files already present for {v}")
 
 
 if __name__ == "__main__":
