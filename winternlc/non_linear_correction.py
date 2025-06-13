@@ -20,6 +20,7 @@ from winternlc.config import (
 from winternlc.get_corrections import check_for_files
 from winternlc.rational import rational_func
 from winternlc.versions import get_nlc_version
+from winternlc.zenodo import LATEST_ZENODO_VERSION
 
 logger = logging.getLogger(__name__)
 
@@ -122,7 +123,7 @@ def apply_nonlinearity_correction(
     image: np.ndarray,
     coefficients: np.ndarray,
     cutoff: float = DEFAULT_CUTOFF,
-    version: str = "v2.0",
+    version: str = LATEST_ZENODO_VERSION,
     crossover_point: float = CROSSOVER_POINT,
     ceiling: float | None = None,
 ) -> np.ndarray:
@@ -157,7 +158,7 @@ def apply_nonlinearity_correction(
 def nlc_single(
     image: np.ndarray,
     board_id: int,
-    version: str = "v2.0",
+    version: str,
     cutoff: float = DEFAULT_CUTOFF,
 ) -> np.ndarray:
     """
