@@ -62,5 +62,5 @@ VERSION_DATES = {
     "v0.1": datetime(2024, 6, 1),
     "v1.0": datetime(2024, 8, 3),
     "v1.1": datetime(2024, 8, 4),
-    "v2.0": datetime(2025, 2, 1),
+    "v2.1": datetime(2025, 2, 1),
 }
