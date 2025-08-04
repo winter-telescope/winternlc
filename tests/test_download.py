@@ -6,6 +6,7 @@ import logging
 import unittest
 
 from winternlc.get_corrections import check_for_files
+from winternlc.zenodo import LATEST_ZENODO_VERSION
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ class TestDownload(unittest.TestCase):
     """
     Class for testing
 
-    Only do v2.0 as the only relevant version
+    Only do latest as the only relevant version
     """
 
     def test_download(self):
@@ -25,4 +26,4 @@ class TestDownload(unittest.TestCase):
         """
         logger.info("Testing nlc")
 
-        check_for_files(version="v2.0")
+        check_for_files(version=LATEST_ZENODO_VERSION)
