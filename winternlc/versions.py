@@ -1,6 +1,7 @@
 """
 Central script for assigning nlc versions based on image headers
 """
+
 from astropy.io import fits
 
 from winternlc.zenodo import LATEST_ZENODO_VERSION
