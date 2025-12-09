@@ -35,7 +35,7 @@ jobs:
       - name: Fetch dataset from GitHub Releases
         run: |
           mkdir -p /home/runner/Data/winternlc/v2.1/
-          wget -c https://https://github.com/winter-telescope/winternlc/releases/download/v2.1-data/16739670.zip -O /home/runner/Data/winternlc/v2.1/16739670.zip
+          wget -c https://github.com/winter-telescope/winternlc/releases/download/v2.1-data/16739670.zip -O /home/runner/Data/winternlc/v2.1/16739670.zip
 
       # Set up the python versions
       - name: Set up Python ${{ matrix.python-version }}
