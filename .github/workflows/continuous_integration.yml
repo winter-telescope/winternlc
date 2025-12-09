@@ -16,6 +16,9 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    # Only one or the other
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -27,6 +30,12 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v3
+
+      # Speed up downloads by caching latest dataset
+      - name: Fetch dataset from GitHub Releases
+        run: |
+          mkdir -p /home/runner/Data/winternlc/v2.1/
+          wget -c https://github.com/winter-telescope/winternlc/releases/download/v2.1-data/16739670.zip -O /home/runner/Data/winternlc/v2.1/16739670.zip
 
       # Set up the python versions
       - name: Set up Python ${{ matrix.python-version }}
