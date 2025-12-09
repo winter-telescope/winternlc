@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 from winternlc.config import get_correction_dir
-from winternlc.zenodo import ZENODO_URL_MAP, get_zenodo_url
+from winternlc.zenodo import ZENODO_URL_MAP, get_zenodo_url, LATEST_ZENODO_VERSION
 
 logger = logging.getLogger(__name__)
 
@@ -84,7 +84,7 @@ def download_files(version: str):
         rename_files(path)
 
 
-def check_for_files(version: str = None):
+def check_for_files(version: str | None = LATEST_ZENODO_VERSION):
     """
     Check if the correction files are present in the correction directory.
     If version is specified, check/download only that version.
