@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 from winternlc.config import get_correction_dir
-from winternlc.zenodo import ZENODO_URL_MAP, get_zenodo_url, LATEST_ZENODO_VERSION
+from winternlc.zenodo import LATEST_ZENODO_VERSION, ZENODO_URL_MAP, get_zenodo_url
 
 logger = logging.getLogger(__name__)
 
